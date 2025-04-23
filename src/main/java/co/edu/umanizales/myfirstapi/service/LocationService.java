@@ -3,34 +3,46 @@ package co.edu.umanizales.myfirstapi.service;
 import co.edu.umanizales.myfirstapi.model.Location;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import jakarta.annotation.PostConstruct;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Getter
+
 public class LocationService {
 
-    public List<Location> readLocationsFromCSV(String csvFilePath) throws IOException {
-        List<Location> locations = new ArrayList<>();
 
-        try (CSVReader csvReader = new CSVReader(new FileReader(csvFilePath))) {
+    private List<Location> locations;
+
+    @Value(value = "${locations_filename}")
+    private String locationsFilename;
+
+
+    @PostConstruct
+    public void readLocationsFromCSV() throws IOException, URISyntaxException {
+        locations = new ArrayList<>();
+
+
+        Path pathFile = Paths.get(ClassLoader.getSystemResource(locationsFilename).toURI());
+
+
+        try (CSVReader csvReader = new CSVReader(new FileReader(pathFile.toString()))) {
             String[] line;
-
+            csvReader.skip(1);
+            // Leer todas las filas del CSV
             while ((line = csvReader.readNext()) != null) {
 
-                String codigoDepartamento = line[0];
-                String nombreDepartamento = line[1];
-                String codigoMunicipio = line[2];
-                String nombreMunicipio = line[3];
-                String tipoMunicipio = line[4];
-                String longitud = line[5];
-                String latitud = line[6];
+                locations.add(new Location(line[0], line[1], line[2], line[3]));
 
-                Location location = new Location(codigoDepartamento, nombreDepartamento, codigoMunicipio, nombreMunicipio, tipoMunicipio, longitud, latitud);
-
-                locations.add(location);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -38,7 +50,48 @@ public class LocationService {
         } catch (CsvValidationException e) {
             throw new RuntimeException(e);
         }
-        return locations;
     }
 
+    public Location getLocationByCode(String code) {
+        for (Location Location : locations) {
+            if (Location.getCode().equals(code)) {
+                return Location;
+            }
+        }
+        return null;
+    }
 }
+
+public Location getLocationByName(String name) {
+    for (Location location : locations) {
+        if (location.getDescription().equals(name)) {
+            return location;
+        }
+    }
+    return null;
+}
+
+
+        public List<Location> getStates() {
+        List<Location> states = new ArrayList<>();
+        for (Location location : locations) {
+            if(location.getState_Code().length() ==2){
+                states.add(location);
+            }
+        }
+        return states;
+    }
+public List<Location> getLocationsByInitial(String letter) {
+    List<Location> states = new ArrayList<>();
+    for (Location location : locations) {
+        if (location.getDescription().toLowerCase().startsWith(letter.toLowerCase())) {
+            states.add(location);
+            }
+        }
+        return null;
+    }
+}
+
+
+
+
