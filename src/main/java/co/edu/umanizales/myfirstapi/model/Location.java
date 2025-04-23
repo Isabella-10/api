@@ -3,7 +3,6 @@ package co.edu.umanizales.myfirstapi.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Getter
 @Setter
@@ -11,6 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 public class Location {
-    private String code;
-    private String description;
+    private String codigoDepartamento;
+    private String nombreDepartamento;
+    private String codigoMunicipio;
+    private String nombreMunicipio;
+    private String tipoMunicipio;
+    private String longitud;
+    private String latitud;
 }
