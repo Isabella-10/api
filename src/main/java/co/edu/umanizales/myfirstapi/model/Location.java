@@ -14,7 +14,5 @@ import lombok.Setter;
 public class Location {
     private String code;
     private String description;
-    private String state_Code;
-    private String name_State;
 
 }

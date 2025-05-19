@@ -8,12 +8,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping(path="/location")
-public class LocationController{
+public class LocationController {
 /*
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public Location getLocation(){
@@ -23,8 +22,8 @@ public class LocationController{
     }
 */
 
-@Autowired
-private LocationService locationService;
+    @Autowired
+    private LocationService locationService;
 
 
     @GetMapping
@@ -33,13 +32,14 @@ private LocationService locationService;
         return locationService.getLocations();
     }
 
-    @GetMapping(path="/{code}")
-    public Location getLocationByCode(@PathVariable String code){
+    @GetMapping(path = "/{code}")
+    public Location getLocationByCode(@PathVariable String code) {
         return locationService.getLocationByCode(code);
 
     }
+
     @GetMapping(path = "/name/{name}")
-    public Location getLocationByName(@PathVariable String na<me) {
+    public Location getLocationsByName(@PathVariable String name) {
         return locationService.getLocationByName(name);
 
     }
@@ -47,12 +47,11 @@ private LocationService locationService;
     @GetMapping(path = "/states")
     public List<Location> getLocationByStates() {
         return locationService.getStates();
-            }
+    }
 
-    @GetMapping(path="/by_initial_letter/{letter}")
+    @GetMapping(path = "/by_initial_letter/{letter}")
     public List<Location> getLocationByInitialLetter(@PathVariable Character letter) {
         return locationService.getLocationByInitialLetter(letter);
     }
 
-
-
+}
