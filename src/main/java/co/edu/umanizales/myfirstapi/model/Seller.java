@@ -10,6 +10,7 @@ import lombok.Setter;
 
 public class Seller {
 private String identification;
+private TypeDocument typedoc;
 private String name;
 private String LastName;
 private Location city;

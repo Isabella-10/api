@@ -13,45 +13,56 @@ import java.util.List;
 @RestController
 @RequestMapping(path="/location")
 public class LocationController {
-/*
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public Location getLocation(){
-        Location location = new Location("1","Manizales");
 
-         return location;
-    }
-*/
 
     @Autowired
-    private LocationService locationService;
+    private LocationService LocationService;
 
 
     @GetMapping
     public List<Location> getLocations() {
 
-        return locationService.getLocations();
+        return LocationService.getLocations();
     }
 
     @GetMapping(path = "/{code}")
     public Location getLocationByCode(@PathVariable String code) {
-        return locationService.getLocationByCode(code);
+        return LocationService.getLocationByCode(code);
 
     }
 
     @GetMapping(path = "/name/{name}")
     public Location getLocationsByName(@PathVariable String name) {
-        return locationService.getLocationByName(name);
+        return LocationService.getLocationByName(name);
 
     }
 
     @GetMapping(path = "/states")
     public List<Location> getLocationByStates() {
-        return locationService.getStates();
+        return LocationService.getStates();
     }
 
-    @GetMapping(path = "/by_initial_letter/{letter}")
-    public List<Location> getLocationByInitialLetter(@PathVariable Character letter) {
-        return locationService.getLocationByInitialLetter(letter);
+    @GetMapping(path = "/initialLetters/{initial}")
+    public List<Location> getLocationByInitial(@PathVariable String initial) {
+        return LocationService.getLocationsByInitialLetter(initial);
+
     }
 
+    @GetMapping("/statecode/{stateCode}")
+    public List<Location> getLocationByStateCode(@PathVariable String stateCode) {
+        return LocationService.getLocationByStateCode(stateCode);
+
+    }
+
+    @GetMapping("/capitals")
+    public List<Location> getCapitals() {
+        return LocationService.getCapitals();
+    }
+
+    @GetMapping(path = "/state/{code}")
+    public Location getStateByCode(@PathVariable String code) {
+        return LocationService.getStateByCode(code);
+
+    }
 }
+

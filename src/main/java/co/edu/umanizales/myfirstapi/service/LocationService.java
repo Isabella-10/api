@@ -20,7 +20,7 @@ import java.util.List;
 
 @Getter
 
-public class locationService {
+public class LocationService {
 
 
     private List<Location> locations;
@@ -32,13 +32,13 @@ public class locationService {
     @PostConstruct
     public void readLocationsFromCSV() throws IOException, URISyntaxException {
         locations = new ArrayList<>();
-        locations.add(new Location("05","ANTIOQUIA"));
-        locations.add(new Location("17","CALDAS"));
-        locations.add(new Location("66","RISARALDA"));
-        locations.add(new Location("91","AMAZONAS"));
-        locations.add(new Location("08","ATLANTICO"));
-        locations.add(new Location("11","BOGOTA"));
-        locations.add(new Location("13","BOLIVAR"));
+        locations.add(new Location("05", "ANTIOQUIA"));
+        locations.add(new Location("17", "CALDAS"));
+        locations.add(new Location("66", "RISARALDA"));
+        locations.add(new Location("91", "AMAZONAS"));
+        locations.add(new Location("08", "ATLANTICO"));
+        locations.add(new Location("11", "BOGOTA"));
+        locations.add(new Location("13", "BOLIVAR"));
 
         Path pathFile = Paths.get(ClassLoader.getSystemResource(locationsFilename).toURI());
 
@@ -68,36 +68,70 @@ public class locationService {
         }
         return null;
     }
-}
 
-public Location getLocationByName(String name) {
-    for (Location location : locations) {
-        if (location.getDescription().equals(name)) {
-            return location;
+    public Location getLocationByName(String name) {
+        for (Location location : locations) {
+            if (location.getDescription().equals(name)) {
+                return location;
+            }
         }
+        return null;
     }
-    return null;
-}
 
 
-        public List<Location> getStates() {
+    public List<Location> getStates() {
         List<Location> states = new ArrayList<>();
         for (Location location : locations) {
-            if(location.getCode().length() ==2){
+            if (location.getCode().length() == 2) {
                 states.add(location);
             }
         }
         return states;
     }
-public List<Location> getLocationsByInitial(String letter) {
-    List<Location> result = new ArrayList<>();
-    for (Location location : locations) {
-        if (location.getDescription().toLowerCase().startsWith(letter.toLowerCase())) {
-            result.add(location);
+
+    public List<Location> getLocationsByInitialLetter(String Letter) {
+        List<Location> result = new ArrayList<>();
+        for (Location location : locations) {
+            if (location.getDescription().startsWith(Letter)) {
+                result.add(location);
+            }
+        }
+        return result;
+    }
+
+    public List<Location> getLocationByStateCode(String stateCode) {
+        List<Location> result = new ArrayList<>();
+        for (Location location : locations) {
+            if (location.getCode().equals(stateCode)) {
+                result.add(location);
+            }
+        }
+        return result;
+    }
+
+    public List<Location> getCapitals() {
+        List<Location> result = new ArrayList<>();
+        for (Location location : locations) {
+            if (location.getCode().endsWith("01") && location.getCode().length() == 5) {
+                result.add(location);
+            }
+        }
+        return result;
+
+    }
+
+
+    public Location getStateByCode(String stateCode) {
+        for (Location location : locations) {
+            if (location.getCode().equals(stateCode)) {
+                return location;
             }
         }
         return null;
     }
+}
+
+
 
 
 
